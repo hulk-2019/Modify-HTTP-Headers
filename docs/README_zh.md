@@ -10,8 +10,6 @@
 
 ![示例 2](../public/example-2.png)
 
-![示例 3](../public/example-3.png)
-
 ## 功能
 
 - 填写 key-value 键值对，通过 `set` 修改 HTTP **请求头**（有则覆盖，无则新增）

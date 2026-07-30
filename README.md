@@ -10,8 +10,6 @@ A browser extension for setting HTTP request headers, supporting **Chrome** and 
 
 ![Screenshot 2](public/example-2.png)
 
-![Screenshot 3](public/example-3.png)
-
 ## Features
 
 - Set HTTP **request headers** using key-value pairs (overwrite if present, add if absent)
