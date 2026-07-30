@@ -1,6 +1,6 @@
 // options.js
 // 完整管理页面：配置档 CRUD、规则表格（搜索 / 排序 / 批量）、
-// 导入导出、命中统计。数据模型与 popup 共用（common.js）。
+// 导入导出。数据模型与 popup 共用（common.js）。
 //
 // 配置档与规则联动：规则区始终展示并编辑「当前启用」的配置档，
 // 在配置档区切换启用后，规则列表同步跟随。
@@ -18,8 +18,6 @@ const els = {
   batchEnableBtn: document.getElementById("batchEnableBtn"),
   batchDisableBtn: document.getElementById("batchDisableBtn"),
   batchDeleteBtn: document.getElementById("batchDeleteBtn"),
-  statsBtn: document.getElementById("statsBtn"),
-  statsMsg: document.getElementById("statsMsg"),
   ruleTbody: document.getElementById("ruleTbody"),
   rulesEmpty: document.getElementById("rulesEmpty"),
   exportBtn: document.getElementById("exportBtn"),
@@ -33,7 +31,6 @@ const ruleRowTemplate = document.getElementById("ruleRowTemplate");
 
 let config = null;
 let lastSyncStatus = null;
-let hitCounts = null; // numId -> 命中次数
 let selectedRuleIds = new Set();
 
 // 规则区编辑的始终是当前启用的配置档
@@ -84,7 +81,6 @@ function renderProfiles() {
 
     activeEl.addEventListener("change", async () => {
       config.activeProfileId = profile.id;
-      hitCounts = null; // 命中统计只对启用中的配置档有效
       selectedRuleIds.clear();
       els.selectAll.checked = false;
       await persist();
@@ -105,7 +101,6 @@ function renderProfiles() {
         config.activeProfileId = config.profiles[0].id;
         selectedRuleIds.clear();
         els.selectAll.checked = false;
-        hitCounts = null;
       }
       await persist();
       renderAll();
@@ -145,7 +140,6 @@ function filteredRules() {
 function renderRules() {
   const profile = editingProfile();
   const visible = filteredRules();
-  const showHits = hitCounts !== null;
 
   els.ruleTbody.innerHTML = "";
   els.rulesEmpty.hidden = profile.rules.length > 0;
@@ -158,30 +152,18 @@ function renderRules() {
 
     const selEl = node.querySelector(".row-sel");
     const enabledEl = node.querySelector(".rule-enabled");
-    const targetEl = node.querySelector(".rule-target");
-    const operationEl = node.querySelector(".rule-operation");
     const nameEl = node.querySelector(".rule-header-name");
     const valueEl = node.querySelector(".rule-header-value");
     const urlEl = node.querySelector(".rule-url-pattern");
-    const hitsEl = node.querySelector(".rule-hits");
     const upBtn = node.querySelector(".rule-up");
     const downBtn = node.querySelector(".rule-down");
     const deleteBtn = node.querySelector(".rule-delete");
 
     selEl.checked = selectedRuleIds.has(rule.id);
     enabledEl.checked = rule.enabled;
-    targetEl.value = rule.target || "request";
-    operationEl.value = rule.operation || "set";
     nameEl.value = rule.headerName;
     valueEl.value = rule.headerValue;
     urlEl.value = rule.urlPattern || "";
-    hitsEl.textContent = showHits ? String(hitCounts[rule.numId] || 0) : "–";
-
-    const syncValueVisibility = () => {
-      valueEl.disabled = operationEl.value === "remove";
-      valueEl.classList.toggle("input-disabled", valueEl.disabled);
-    };
-    syncValueVisibility();
 
     const markInvalid = () => {
       nameEl.classList.toggle(
@@ -198,15 +180,6 @@ function renderRules() {
     enabledEl.addEventListener("change", () => {
       rule.enabled = enabledEl.checked;
       markInvalid();
-      persist();
-    });
-    targetEl.addEventListener("change", () => {
-      rule.target = targetEl.value;
-      persist();
-    });
-    operationEl.addEventListener("change", () => {
-      rule.operation = operationEl.value;
-      syncValueVisibility();
       persist();
     });
     nameEl.addEventListener("input", markInvalid);
@@ -277,31 +250,6 @@ async function batchDelete() {
   renderProfiles();
 }
 
-// —— 命中统计（Chrome 专有 API，Firefox 优雅降级）——
-async function refreshStats() {
-  els.statsMsg.hidden = false;
-  const dnr = browserAPI.declarativeNetRequest;
-  if (typeof dnr.getMatchedRules !== "function") {
-    els.statsMsg.textContent = t("statsUnsupported");
-    return;
-  }
-  try {
-    const details = await dnr.getMatchedRules({});
-    const dynamicId = dnr.DYNAMIC_RULESET_ID || "_dynamic";
-    hitCounts = {};
-    for (const info of details.rulesMatchedInfo || []) {
-      if (info.rule && info.rule.rulesetId === dynamicId) {
-        hitCounts[info.rule.ruleId] = (hitCounts[info.rule.ruleId] || 0) + 1;
-      }
-    }
-    els.statsMsg.hidden = true;
-    renderRules();
-  } catch (err) {
-    els.statsMsg.textContent =
-      t("statsError") + String((err && err.message) || err);
-  }
-}
-
 // —— 导入 / 导出 ——
 function showDataMsg(text) {
   els.dataMsg.textContent = text;
@@ -314,6 +262,7 @@ function exportConfig() {
     version: 2,
     exportedAt: new Date().toISOString(),
     globalEnabled: config.globalEnabled,
+    language: config.language,
     activeProfileId: config.activeProfileId,
     profiles: config.profiles
   };
@@ -360,17 +309,23 @@ async function importConfig(file) {
     return profile;
   });
 
+  const prevLanguage = config.language;
   config = {
     globalEnabled: parsed.globalEnabled !== false,
+    // 文件里没带语言（旧版本导出）时沿用当前界面语言，不要退回浏览器默认值
+    language: LANG_LOCALE_DIR[parsed.language] ? parsed.language : prevLanguage,
     activeProfileId: profiles.some((p) => p.id === parsed.activeProfileId)
       ? parsed.activeProfileId
       : profiles[0].id,
     profiles
   };
   selectedRuleIds.clear();
-  hitCounts = null;
 
   await persist();
+  if (config.language !== prevLanguage) {
+    location.reload();
+    return;
+  }
   renderAll();
   showDataMsg(t("importSuccess"));
 }
@@ -416,7 +371,6 @@ els.selectAll.addEventListener("change", () => {
 els.batchEnableBtn.addEventListener("click", () => batchSetEnabled(true));
 els.batchDisableBtn.addEventListener("click", () => batchSetEnabled(false));
 els.batchDeleteBtn.addEventListener("click", batchDelete);
-els.statsBtn.addEventListener("click", refreshStats);
 
 els.exportBtn.addEventListener("click", exportConfig);
 els.importBtn.addEventListener("click", () => els.importFile.click());
@@ -433,6 +387,24 @@ browserAPI.storage.onChanged.addListener((changes, area) => {
     renderStatus();
   }
 });
+
+// 别处（popup / 另一个选项页）改了配置：换成最新数据重新渲染，
+// 否则本页那份旧副本一落盘就会把对方的改动覆盖掉
+onExternalConfigChange(
+  () => config,
+  (next) => {
+    // 语言变了要用新语言包重新渲染整页
+    if (normalizeLanguage(next.language) !== config.language) {
+      location.reload();
+      return;
+    }
+    config = next;
+    config.language = normalizeLanguage(config.language);
+    selectedRuleIds.clear();
+    els.selectAll.checked = false;
+    renderAll();
+  }
+);
 
 // —— 初始化 ——
 (async function init() {

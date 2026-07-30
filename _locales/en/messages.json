@@ -1,6 +1,6 @@
 {
   "extName": { "message": "Modify HTTP Headers" },
-  "extDescription": { "message": "Add, modify, and remove HTTP request/response headers with URL matching, profiles, and import/export." },
+  "extDescription": { "message": "Set HTTP request headers with URL matching, profiles, and import/export." },
 
   "popupTitle": { "message": "HTTP Header Modifier" },
   "globalSwitchTitle": { "message": "Master switch: enable/disable all rules" },
@@ -14,14 +14,7 @@
   "emptyHint": { "message": "No rules yet. Click \"Add rule\" to get started." },
 
   "ruleEnabledTitle": { "message": "Enable/disable this rule" },
-  "ruleTargetTitle": { "message": "Modify request or response headers" },
-  "ruleOperationTitle": { "message": "Operation to apply to this header" },
   "ruleDeleteTitle": { "message": "Delete this rule" },
-  "targetRequest": { "message": "Request" },
-  "targetResponse": { "message": "Response" },
-  "opSet": { "message": "Set" },
-  "opAppend": { "message": "Append" },
-  "opRemove": { "message": "Remove" },
   "phHeaderName": { "message": "Header name, e.g. X-Custom-Header" },
   "phHeaderValue": { "message": "Header value" },
   "phUrlPattern": { "message": "URL filter (optional), e.g. *://api.example.com/*; empty matches all" },
@@ -56,18 +49,10 @@
   "batchDelete": { "message": "Delete selected" },
   "batchDeleteConfirm": { "message": "Delete the selected rules?" },
 
-  "statsRefresh": { "message": "Refresh hit stats" },
-  "statsHint": { "message": "Hit stats show each rule's matches in the last 5 minutes, for the active profile only." },
-  "statsUnsupported": { "message": "Hit stats are not supported in this browser (Chrome required)." },
-  "statsError": { "message": "Failed to fetch hit stats: " },
-
   "colEnabled": { "message": "On" },
-  "colTarget": { "message": "Target" },
-  "colOperation": { "message": "Operation" },
   "colName": { "message": "Name (key)" },
   "colValue": { "message": "Value" },
   "colUrl": { "message": "URL filter" },
-  "colHits": { "message": "Hits" },
   "colActions": { "message": "Actions" },
   "moveUp": { "message": "Move up" },
   "moveDown": { "message": "Move down" },

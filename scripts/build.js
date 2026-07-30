@@ -48,6 +48,8 @@ function buildFirefoxManifest() {
   const m = clone(baseManifest);
   // Firefox MV3 不支持 service_worker，走 background.scripts
   m.background = { scripts: ["browser-polyfill.js", "common.js", "background.js"] };
+  // Chrome 专用字段，留在 Firefox 包里会报「无法识别的 manifest 键」
+  delete m.minimum_chrome_version;
   m.browser_specific_settings = {
     gecko: {
       id: "modify-http-headers@example.com",
@@ -143,11 +145,11 @@ function build(target) {
 // 【使用】
 //
 // 1. 点击工具栏图标打开弹窗
-// 2. 「+ 新增规则」，选择目标（请求头/响应头）和操作（set/append/remove）
-// 3. 填写头名称(key)和值(value)（remove 操作无需填值）
+// 2. 点击「+ 新增规则」
+// 3. 填写请求头名称(key)和值(value)
 // 4. 可选填写 URL 匹配（如 *://api.example.com/*），留空对所有请求生效
 // 5. 用开关启用 / 停用，点 ✕ 删除；右上角总开关可一键暂停所有规则
-// 6. 点「管理」打开完整管理页：配置档、搜索、批量操作、导入导出、命中统计
+// 6. 点「管理」打开完整管理页：配置档、搜索、批量操作、导入导出
 //
 // 改动即时保存并生效。
 // `;

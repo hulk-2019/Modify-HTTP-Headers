@@ -287,12 +287,6 @@ input.input-disabled {
   min-width: 120px;
 }
 
-.rule-hits {
-  text-align: center;
-  color: #6b7280;
-  font-variant-numeric: tabular-nums;
-}
-
 .row-actions {
   display: flex;
   gap: 4px;

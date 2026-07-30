@@ -60,26 +60,15 @@ function render() {
     item.dataset.id = rule.id;
 
     const enabledEl = node.querySelector(".rule-enabled");
-    const targetEl = node.querySelector(".rule-target");
-    const operationEl = node.querySelector(".rule-operation");
     const nameEl = node.querySelector(".rule-header-name");
     const valueEl = node.querySelector(".rule-header-value");
     const urlEl = node.querySelector(".rule-url-pattern");
     const deleteBtn = node.querySelector(".rule-delete");
 
     enabledEl.checked = rule.enabled;
-    targetEl.value = rule.target || "request";
-    operationEl.value = rule.operation || "set";
     nameEl.value = rule.headerName;
     valueEl.value = rule.headerValue;
     urlEl.value = rule.urlPattern || "";
-
-    // remove 操作不需要 value，隐藏该输入行
-    const syncValueVisibility = () => {
-      valueEl.parentElement.style.display =
-        operationEl.value === "remove" ? "none" : "";
-    };
-    syncValueVisibility();
 
     // 启用但 key 为空的规则不会生效，给出红框提示
     const markInvalid = () => {
@@ -94,13 +83,6 @@ function render() {
     enabledEl.addEventListener("change", () => {
       updateRule(rule.id, { enabled: enabledEl.checked });
       markInvalid();
-    });
-    targetEl.addEventListener("change", () => {
-      updateRule(rule.id, { target: targetEl.value });
-    });
-    operationEl.addEventListener("change", () => {
-      updateRule(rule.id, { operation: operationEl.value });
-      syncValueVisibility();
     });
     nameEl.addEventListener("input", () => {
       updateRule(rule.id, { headerName: nameEl.value }, false);
@@ -186,6 +168,24 @@ browserAPI.storage.onChanged.addListener((changes, area) => {
     renderStatus();
   }
 });
+
+// 选项页（导入配置、增删规则等）改了配置：换成最新数据重新渲染，
+// 否则本面板那份旧副本一落盘就会把对方的改动覆盖掉
+onExternalConfigChange(
+  () => config,
+  (next) => {
+    if (normalizeLanguage(next.language) !== config.language) {
+      location.reload();
+      return;
+    }
+    config = next;
+    config.language = normalizeLanguage(config.language);
+    globalSwitchEl.checked = config.globalEnabled;
+    renderProfileSelect();
+    render();
+    renderStatus();
+  }
+);
 
 (async function init() {
   config = await loadConfig();

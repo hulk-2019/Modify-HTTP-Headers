@@ -54,24 +54,16 @@
         <button id="batchEnableBtn" class="btn" data-i18n="batchEnable"></button>
         <button id="batchDisableBtn" class="btn" data-i18n="batchDisable"></button>
         <button id="batchDeleteBtn" class="btn btn-danger" data-i18n="batchDelete"></button>
-        <span class="spacer"></span>
-        <button id="statsBtn" class="btn" data-i18n="statsRefresh"></button>
       </div>
-
-      <p class="hint" data-i18n="statsHint"></p>
-      <p id="statsMsg" class="hint" hidden></p>
 
       <table class="rule-table">
         <thead>
           <tr>
             <th class="col-sel"></th>
             <th data-i18n="colEnabled"></th>
-            <th data-i18n="colTarget"></th>
-            <th data-i18n="colOperation"></th>
             <th class="col-grow" data-i18n="colName"></th>
             <th class="col-grow" data-i18n="colValue"></th>
             <th class="col-grow" data-i18n="colUrl"></th>
-            <th data-i18n="colHits"></th>
             <th data-i18n="colActions"></th>
           </tr>
         </thead>
@@ -113,23 +105,9 @@
           <span class="slider"></span>
         </label>
       </td>
-      <td>
-        <select class="rule-target" data-i18n-title="ruleTargetTitle">
-          <option value="request" data-i18n="targetRequest"></option>
-          <option value="response" data-i18n="targetResponse"></option>
-        </select>
-      </td>
-      <td>
-        <select class="rule-operation" data-i18n-title="ruleOperationTitle">
-          <option value="set" data-i18n="opSet"></option>
-          <option value="append" data-i18n="opAppend"></option>
-          <option value="remove" data-i18n="opRemove"></option>
-        </select>
-      </td>
       <td><input type="text" class="rule-header-name" data-i18n-placeholder="phHeaderName" /></td>
       <td><input type="text" class="rule-header-value" data-i18n-placeholder="phHeaderValue" /></td>
       <td><input type="text" class="rule-url-pattern mono" data-i18n-placeholder="phUrlPattern" /></td>
-      <td class="rule-hits">–</td>
       <td class="row-actions">
         <button class="btn btn-icon rule-up" data-i18n-title="moveUp">↑</button>
         <button class="btn btn-icon rule-down" data-i18n-title="moveDown">↓</button>

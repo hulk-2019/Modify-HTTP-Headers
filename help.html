@@ -23,7 +23,6 @@
         <a href="#zh-profile">配置档</a>
         <a href="#zh-manager">管理页</a>
         <a href="#zh-data">导入 / 导出</a>
-        <a href="#zh-stats">命中统计</a>
         <a href="#zh-faq">常见问题</a>
       </nav>
 
@@ -31,12 +30,11 @@
         <h2>快速上手</h2>
         <ol>
           <li>点击浏览器工具栏图标打开弹窗。</li>
-          <li>点击「+ 新增规则」，选择目标（请求头 / 响应头）和操作（set / append / remove）。</li>
-          <li>填写头名称(key)和值(value)；remove 操作无需填值。</li>
+          <li>点击「+ 新增规则」，填写请求头名称(key)和值(value)。规则固定使用 set：已有同名请求头时覆盖，否则新增。</li>
           <li>可选填写 URL 匹配，留空则对所有请求生效。</li>
           <li>改动即时保存并生效，无需手动确认。</li>
         </ol>
-        <p class="tip">示例：给所有发往 <code>api.example.com</code> 的请求加上认证头 —— 目标选「请求头」，操作选「设置(set)」，key 填 <code>Authorization</code>，value 填 <code>Bearer xxx</code>，URL 匹配填 <code>*://api.example.com/*</code>。</p>
+        <p class="tip">示例：给所有发往 <code>api.example.com</code> 的请求设置认证头 —— key 填 <code>Authorization</code>，value 填 <code>Bearer xxx</code>，URL 匹配填 <code>*://api.example.com/*</code>。</p>
       </section>
 
       <section class="card" id="zh-rule">
@@ -44,11 +42,9 @@
         <table class="help-table">
           <tr><th>字段</th><th>说明</th></tr>
           <tr><td>启用开关</td><td>每条规则独立的开关，关闭后该规则立即失效但配置保留。</td></tr>
-          <tr><td>目标</td><td>「请求头」修改浏览器发出的请求；「响应头」修改服务器返回的响应（如去掉 <code>X-Frame-Options</code>）。</td></tr>
-          <tr><td>操作</td><td><b>设置(set)</b>：有则覆盖，无则新增；<b>追加(append)</b>：在已有值后追加；<b>删除(remove)</b>：移除该头，无需填值。</td></tr>
           <tr><td>名称(key)</td><td>要修改的头名称，如 <code>X-Custom-Header</code>。启用状态下留空会显示红框，该规则不会生效。</td></tr>
-          <tr><td>值(value)</td><td>set / append 时写入的内容；remove 时此栏隐藏或禁用。</td></tr>
-          <tr><td>URL 匹配</td><td>限定规则生效的地址，支持通配符（<code>*</code> 匹配任意字符），如 <code>*://api.example.com/*</code>、<code>*://*.example.com/*</code>。留空匹配所有请求。</td></tr>
+          <tr><td>值(value)</td><td>写入请求头的内容。同名请求头已存在时覆盖，否则新增。</td></tr>
+          <tr><td>URL 匹配</td><td>限定规则生效的地址，支持通配符（<code>*</code> 匹配任意字符），如 <code>*://api.example.com/*</code> 只匹配该域名本身、<code>*://*.example.com/*</code> 匹配 <code>example.com</code> 及其子域。端口无需写出，<code>*://api.example.com/*</code> 同样匹配 <code>api.example.com:8080</code>；要限定端口就显式写成 <code>*://localhost:8080/*</code>。不含 <code>://</code> 的写法按子串匹配整个地址，如 <code>api.example.com</code>、<code>/api/v1</code>。留空匹配所有请求。</td></tr>
         </table>
       </section>
 
@@ -93,15 +89,6 @@
         </ul>
       </section>
 
-      <section class="card" id="zh-stats">
-        <h2>命中统计</h2>
-        <p>管理页点击「刷新命中统计」，可查看当前启用配置档里各规则最近 5 分钟内的命中次数，用于排查「规则为什么没生效」。</p>
-        <ul>
-          <li>仅 Chrome / Edge 支持（依赖 <code>getMatchedRules</code> API），Firefox 会显示不支持的提示。</li>
-          <li>该 API 有调用频率限制，短时间内频繁刷新可能暂时失败，稍等再试即可。</li>
-        </ul>
-      </section>
-
       <section class="card" id="zh-faq">
         <h2>常见问题</h2>
         <p><b>规则填好了但没生效？</b></p>
@@ -110,9 +97,9 @@
           <li>确认当前生效的配置档是不是规则所在的那个。</li>
           <li>URL 匹配写法是否正确，可先留空试试是否全局生效。</li>
           <li>部分受浏览器保护的头（如 <code>Host</code>）无法修改。</li>
+          <li>用 DevTools 的 Network 面板选中该请求，在 Headers 里核对头是否已被改写。</li>
         </ul>
-        <p><b>append 不生效？</b>Chrome 中请求头的 append 仅支持少数标准头（<code>Accept</code>、<code>Accept-Language</code>、<code>Cookie</code> 等），响应头无此限制。</p>
-        <p><b>Firefox 有什么差异？</b>需要 Firefox 128 及以上；命中统计不可用；临时载入的插件重启后会消失。</p>
+        <p><b>Firefox 有什么差异？</b>需要 Firefox 128 及以上；临时载入的插件重启后会消失。</p>
       </section>
     </div>
 
@@ -129,7 +116,6 @@
         <a href="#en-profile">Profiles</a>
         <a href="#en-manager">Manager page</a>
         <a href="#en-data">Import / Export</a>
-        <a href="#en-stats">Hit stats</a>
         <a href="#en-faq">FAQ</a>
       </nav>
 
@@ -137,12 +123,11 @@
         <h2>Quick start</h2>
         <ol>
           <li>Click the toolbar icon to open the popup.</li>
-          <li>Click "+ Add rule", then choose the target (request / response) and operation (set / append / remove).</li>
-          <li>Fill in the header name (key) and value; the remove operation needs no value.</li>
+          <li>Click "+ Add rule", then fill in the request header name (key) and value. Rules always use set: an existing header is overwritten, otherwise it is added.</li>
           <li>Optionally add a URL filter; leave it empty to match all requests.</li>
           <li>Changes are saved and applied immediately.</li>
         </ol>
-        <p class="tip">Example: add an auth header to every request to <code>api.example.com</code> — target "Request", operation "Set", key <code>Authorization</code>, value <code>Bearer xxx</code>, URL filter <code>*://api.example.com/*</code>.</p>
+        <p class="tip">Example: set an auth header on every request to <code>api.example.com</code> — key <code>Authorization</code>, value <code>Bearer xxx</code>, URL filter <code>*://api.example.com/*</code>.</p>
       </section>
 
       <section class="card" id="en-rule">
@@ -150,11 +135,9 @@
         <table class="help-table">
           <tr><th>Field</th><th>Description</th></tr>
           <tr><td>Enable switch</td><td>Per-rule switch. Turning it off deactivates the rule immediately while keeping its configuration.</td></tr>
-          <tr><td>Target</td><td>"Request" modifies outgoing request headers; "Response" modifies server response headers (e.g. removing <code>X-Frame-Options</code>).</td></tr>
-          <tr><td>Operation</td><td><b>Set</b>: overwrite or add; <b>Append</b>: append to the existing value; <b>Remove</b>: delete the header (no value needed).</td></tr>
           <tr><td>Name (key)</td><td>The header to modify, e.g. <code>X-Custom-Header</code>. An enabled rule with an empty key shows a red border and has no effect.</td></tr>
-          <tr><td>Value</td><td>Content written for set / append; hidden or disabled for remove.</td></tr>
-          <tr><td>URL filter</td><td>Limits where the rule applies. Wildcards supported (<code>*</code> matches anything), e.g. <code>*://api.example.com/*</code>, <code>*://*.example.com/*</code>. Empty matches all requests.</td></tr>
+          <tr><td>Value</td><td>Content written to the request header. An existing header is overwritten; otherwise it is added.</td></tr>
+          <tr><td>URL filter</td><td>Limits where the rule applies. Wildcards supported (<code>*</code> matches anything): <code>*://api.example.com/*</code> matches that host only, <code>*://*.example.com/*</code> matches <code>example.com</code> and its subdomains. Ports need not be written out — <code>*://api.example.com/*</code> also matches <code>api.example.com:8080</code>; write <code>*://localhost:8080/*</code> to pin a port. A value without <code>://</code> is matched as a substring of the whole URL, e.g. <code>api.example.com</code>, <code>/api/v1</code>. Empty matches all requests.</td></tr>
         </table>
       </section>
 
@@ -199,15 +182,6 @@
         </ul>
       </section>
 
-      <section class="card" id="en-stats">
-        <h2>Hit stats</h2>
-        <p>Click "Refresh hit stats" on the manager page to see how many times each rule of the active profile matched in the last 5 minutes — useful for debugging "why isn't my rule working".</p>
-        <ul>
-          <li>Chrome / Edge only (relies on the <code>getMatchedRules</code> API); Firefox shows an unsupported notice.</li>
-          <li>The API is rate-limited; if refreshing fails temporarily, wait a moment and retry.</li>
-        </ul>
-      </section>
-
       <section class="card" id="en-faq">
         <h2>FAQ</h2>
         <p><b>My rule doesn't work?</b></p>
@@ -216,9 +190,9 @@
           <li>Make sure the active profile is the one containing your rule.</li>
           <li>Verify the URL filter; try leaving it empty to test globally first.</li>
           <li>Some browser-protected headers (e.g. <code>Host</code>) cannot be modified.</li>
+          <li>Select the request in the DevTools Network panel and check its Headers to see whether the header was rewritten.</li>
         </ul>
-        <p><b>Append has no effect?</b> In Chrome, appending to request headers only works for a few standard headers (<code>Accept</code>, <code>Accept-Language</code>, <code>Cookie</code>, etc.); response headers have no such restriction.</p>
-        <p><b>Firefox differences?</b> Requires Firefox 128+; hit stats are unavailable; temporarily loaded add-ons disappear after a restart.</p>
+        <p><b>Firefox differences?</b> Requires Firefox 128+; temporarily loaded add-ons disappear after a restart.</p>
       </section>
     </div>
 
