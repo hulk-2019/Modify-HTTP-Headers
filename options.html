@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modify HTTP Headers</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1 data-i18n="optionsTitle"></h1>
+      <div class="header-actions">
+        <select id="langSelect" class="lang-select" data-i18n-title="languageTitle">
+          <option value="en">English</option>
+          <option value="zh">中文</option>
+        </select>
+        <a href="help.html" target="_blank" class="help-link" data-i18n="helpTitle" data-i18n-title="openHelpTitle"></a>
+        <label class="switch" data-i18n-title="globalSwitchTitle">
+          <input type="checkbox" id="globalSwitch" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <p id="statusBar" class="status-bar" hidden></p>
+
+    <!-- 配置档管理 -->
+    <section class="card">
+      <h2 data-i18n="sectionProfiles"></h2>
+      <ul id="profileList" class="profile-list"></ul>
+      <button id="profileAddBtn" class="btn btn-primary" data-i18n="profileAdd"></button>
+    </section>
+
+    <!-- 规则管理（始终编辑当前启用的配置档，与上方配置档区联动） -->
+    <section class="card">
+      <div class="section-head">
+        <h2 data-i18n="sectionRules"></h2>
+        <span class="active-profile-tag" data-i18n-title="rulesActiveProfileTitle">
+          <span data-i18n="rulesActiveProfile"></span><b id="activeProfileName"></b>
+        </span>
+      </div>
+
+      <div class="rules-toolbar">
+        <input id="searchInput" type="search" data-i18n-placeholder="searchPh" />
+        <button id="addRuleBtn" class="btn btn-primary" data-i18n="addRule"></button>
+      </div>
+
+      <div class="rules-toolbar">
+        <label class="select-all-label">
+          <input type="checkbox" id="selectAll" />
+          <span data-i18n="selectAll"></span>
+        </label>
+        <button id="batchEnableBtn" class="btn" data-i18n="batchEnable"></button>
+        <button id="batchDisableBtn" class="btn" data-i18n="batchDisable"></button>
+        <button id="batchDeleteBtn" class="btn btn-danger" data-i18n="batchDelete"></button>
+        <span class="spacer"></span>
+        <button id="statsBtn" class="btn" data-i18n="statsRefresh"></button>
+      </div>
+
+      <p class="hint" data-i18n="statsHint"></p>
+      <p id="statsMsg" class="hint" hidden></p>
+
+      <table class="rule-table">
+        <thead>
+          <tr>
+            <th class="col-sel"></th>
+            <th data-i18n="colEnabled"></th>
+            <th data-i18n="colTarget"></th>
+            <th data-i18n="colOperation"></th>
+            <th class="col-grow" data-i18n="colName"></th>
+            <th class="col-grow" data-i18n="colValue"></th>
+            <th class="col-grow" data-i18n="colUrl"></th>
+            <th data-i18n="colHits"></th>
+            <th data-i18n="colActions"></th>
+          </tr>
+        </thead>
+        <tbody id="ruleTbody"></tbody>
+      </table>
+      <p id="rulesEmpty" class="hint" data-i18n="emptyHint" hidden></p>
+    </section>
+
+    <!-- 导入 / 导出 -->
+    <section class="card">
+      <h2 data-i18n="sectionData"></h2>
+      <div class="rules-toolbar">
+        <button id="exportBtn" class="btn" data-i18n="exportBtn"></button>
+        <button id="importBtn" class="btn" data-i18n="importBtn"></button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden />
+      </div>
+      <p id="dataMsg" class="hint" hidden></p>
+    </section>
+  </div>
+
+  <!-- 配置档行模板 -->
+  <template id="profileItemTemplate">
+    <li class="profile-item">
+      <input type="radio" name="activeProfile" class="profile-active" data-i18n-title="profileActivate" />
+      <input type="text" class="profile-name" data-i18n-placeholder="profileNamePh" />
+      <span class="profile-meta"></span>
+      <span class="badge-active" data-i18n="profileActiveBadge" hidden></span>
+      <button class="btn btn-danger profile-delete" data-i18n="profileDelete"></button>
+    </li>
+  </template>
+
+  <!-- 规则行模板 -->
+  <template id="ruleRowTemplate">
+    <tr class="rule-row">
+      <td><input type="checkbox" class="row-sel" /></td>
+      <td>
+        <label class="switch switch-sm" data-i18n-title="ruleEnabledTitle">
+          <input type="checkbox" class="rule-enabled" />
+          <span class="slider"></span>
+        </label>
+      </td>
+      <td>
+        <select class="rule-target" data-i18n-title="ruleTargetTitle">
+          <option value="request" data-i18n="targetRequest"></option>
+          <option value="response" data-i18n="targetResponse"></option>
+        </select>
+      </td>
+      <td>
+        <select class="rule-operation" data-i18n-title="ruleOperationTitle">
+          <option value="set" data-i18n="opSet"></option>
+          <option value="append" data-i18n="opAppend"></option>
+          <option value="remove" data-i18n="opRemove"></option>
+        </select>
+      </td>
+      <td><input type="text" class="rule-header-name" data-i18n-placeholder="phHeaderName" /></td>
+      <td><input type="text" class="rule-header-value" data-i18n-placeholder="phHeaderValue" /></td>
+      <td><input type="text" class="rule-url-pattern mono" data-i18n-placeholder="phUrlPattern" /></td>
+      <td class="rule-hits">–</td>
+      <td class="row-actions">
+        <button class="btn btn-icon rule-up" data-i18n-title="moveUp">↑</button>
+        <button class="btn btn-icon rule-down" data-i18n-title="moveDown">↓</button>
+        <button class="btn btn-icon btn-danger rule-delete" data-i18n-title="ruleDeleteTitle">✕</button>
+      </td>
+    </tr>
+  </template>
+
+  <script src="browser-polyfill.js"></script>
+  <script src="common.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

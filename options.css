@@ -1,0 +1,343 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  color: #1f2328;
+  background: #f6f8fa;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.page-header h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.help-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.lang-select {
+  padding: 4px 6px;
+  border: 1px solid #d0d7de;
+  border-radius: 5px;
+  font-size: 12px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.help-link:hover {
+  text-decoration: underline;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.card h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.section-head h2 {
+  margin-bottom: 0;
+}
+
+.section-head + .rules-toolbar {
+  margin-top: 12px;
+}
+
+/* 规则区的「当前配置档」标签，强调与配置档区的联动 */
+.active-profile-tag {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-size: 12px;
+}
+
+.active-profile-tag b {
+  font-weight: 600;
+}
+
+.hint {
+  color: #6b7280;
+  font-size: 12px;
+  margin: 6px 0;
+}
+
+/* —— 按钮 —— */
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #e5e7eb;
+  color: #1f2328;
+  transition: opacity 0.15s ease;
+}
+
+.btn:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: #fff;
+}
+
+.btn-icon {
+  padding: 4px 7px;
+  line-height: 1;
+}
+
+/* —— 状态栏 —— */
+.status-bar {
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  word-break: break-all;
+}
+
+.status-bar.warn {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.status-bar.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* —— 配置档 —— */
+.profile-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.profile-item .profile-name {
+  flex: 1;
+  max-width: 320px;
+}
+
+.profile-meta {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.badge-active {
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+/* —— 规则工具条 —— */
+.rules-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.rules-toolbar .spacer {
+  flex: 1;
+}
+
+.select-all-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#searchInput {
+  flex: 1;
+  min-width: 180px;
+}
+
+/* —— 输入控件 —— */
+input[type="text"],
+input[type="search"],
+select {
+  padding: 5px 7px;
+  border: 1px solid #d0d7de;
+  border-radius: 5px;
+  font-size: 12px;
+  background: #fff;
+  color: #1f2328;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: #57606a;
+}
+
+input.input-invalid,
+input.input-invalid:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
+
+input.input-disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+}
+
+/* —— 规则表格 —— */
+.rule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rule-table th {
+  text-align: left;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  padding: 6px 6px;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.rule-table td {
+  padding: 6px 6px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.rule-table .col-grow,
+.rule-table td input[type="text"] {
+  width: 100%;
+  min-width: 120px;
+}
+
+.rule-hits {
+  text-align: center;
+  color: #6b7280;
+  font-variant-numeric: tabular-nums;
+}
+
+.row-actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* —— 开关（与 popup 一致）—— */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 20px;
+  transition: background 0.2s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  top: 2px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.switch input:checked + .slider {
+  background: #22c55e;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(16px);
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modify HTTP Headers · Help</title>
+  <link rel="stylesheet" href="options.css" />
+  <link rel="stylesheet" href="help.css" />
+</head>
+<body>
+  <div class="page help-page">
+
+    <!-- ==================== 中文 ==================== -->
+    <div data-lang="zh" hidden>
+      <header class="page-header">
+        <h1>帮助文档</h1>
+      </header>
+
+      <nav class="card toc">
+        <a href="#zh-quickstart">快速上手</a>
+        <a href="#zh-rule">规则字段说明</a>
+        <a href="#zh-global">总开关与角标</a>
+        <a href="#zh-profile">配置档</a>
+        <a href="#zh-manager">管理页</a>
+        <a href="#zh-data">导入 / 导出</a>
+        <a href="#zh-stats">命中统计</a>
+        <a href="#zh-faq">常见问题</a>
+      </nav>
+
+      <section class="card" id="zh-quickstart">
+        <h2>快速上手</h2>
+        <ol>
+          <li>点击浏览器工具栏图标打开弹窗。</li>
+          <li>点击「+ 新增规则」，选择目标（请求头 / 响应头）和操作（set / append / remove）。</li>
+          <li>填写头名称(key)和值(value)；remove 操作无需填值。</li>
+          <li>可选填写 URL 匹配，留空则对所有请求生效。</li>
+          <li>改动即时保存并生效，无需手动确认。</li>
+        </ol>
+        <p class="tip">示例：给所有发往 <code>api.example.com</code> 的请求加上认证头 —— 目标选「请求头」，操作选「设置(set)」，key 填 <code>Authorization</code>，value 填 <code>Bearer xxx</code>，URL 匹配填 <code>*://api.example.com/*</code>。</p>
+      </section>
+
+      <section class="card" id="zh-rule">
+        <h2>规则字段说明</h2>
+        <table class="help-table">
+          <tr><th>字段</th><th>说明</th></tr>
+          <tr><td>启用开关</td><td>每条规则独立的开关，关闭后该规则立即失效但配置保留。</td></tr>
+          <tr><td>目标</td><td>「请求头」修改浏览器发出的请求；「响应头」修改服务器返回的响应（如去掉 <code>X-Frame-Options</code>）。</td></tr>
+          <tr><td>操作</td><td><b>设置(set)</b>：有则覆盖，无则新增；<b>追加(append)</b>：在已有值后追加；<b>删除(remove)</b>：移除该头，无需填值。</td></tr>
+          <tr><td>名称(key)</td><td>要修改的头名称，如 <code>X-Custom-Header</code>。启用状态下留空会显示红框，该规则不会生效。</td></tr>
+          <tr><td>值(value)</td><td>set / append 时写入的内容；remove 时此栏隐藏或禁用。</td></tr>
+          <tr><td>URL 匹配</td><td>限定规则生效的地址，支持通配符（<code>*</code> 匹配任意字符），如 <code>*://api.example.com/*</code>、<code>*://*.example.com/*</code>。留空匹配所有请求。</td></tr>
+        </table>
+      </section>
+
+      <section class="card" id="zh-global">
+        <h2>总开关与角标</h2>
+        <p>弹窗和管理页右上角的总开关可一键暂停 / 恢复所有规则，暂停时配置不会丢失。</p>
+        <p>工具栏图标角标反映当前状态：</p>
+        <ul>
+          <li><b>数字</b>（蓝色）：当前生效的规则数量。</li>
+          <li><b>OFF</b>（灰色）：总开关已关闭。</li>
+          <li><b>ERR</b>（红色）：规则同步失败，打开弹窗或管理页可看到具体错误原因。</li>
+        </ul>
+      </section>
+
+      <section class="card" id="zh-profile">
+        <h2>配置档</h2>
+        <p>配置档（Profile）是一组独立的规则集合，适合按场景组织，例如「开发环境」「测试环境」各存一套请求头。</p>
+        <ul>
+          <li>同一时间只有<b>一个</b>配置档生效（弹窗顶部下拉框或管理页单选按钮切换）。</li>
+          <li>管理页可新增、重命名、删除配置档；最后一个配置档不可删除。</li>
+          <li>切换配置档后规则立即按新配置档生效。</li>
+        </ul>
+      </section>
+
+      <section class="card" id="zh-manager">
+        <h2>管理页</h2>
+        <p>点击弹窗中的「管理」按钮进入完整管理页，适合规则较多时使用：</p>
+        <ul>
+          <li><b>搜索</b>：按 key / value / URL 关键字过滤规则。</li>
+          <li><b>排序</b>：每行的 ↑ / ↓ 按钮调整规则顺序。</li>
+          <li><b>批量操作</b>：勾选多条规则后一键启用、停用或删除；「全选」作用于当前搜索结果。</li>
+          <li>规则区与配置档区<b>联动</b>：列表展示并编辑的始终是「当前启用」的配置档（标题旁有标签指示），在配置档区切换启用后，规则列表会同步跟随。</li>
+          <li>弹窗和管理页右上角均可切换<b>界面语言</b>（English / 中文）。初始语言按浏览器语言自动判断：中国大陆 / 香港 / 澳门 / 台湾默认中文，其他默认英文；手动切换后以所选为准，对弹窗、管理页和本帮助页统一生效。</li>
+        </ul>
+      </section>
+
+      <section class="card" id="zh-data">
+        <h2>导入 / 导出</h2>
+        <ul>
+          <li><b>导出 JSON</b>：把全部配置档与规则保存为一个 JSON 文件，可用于备份或分享给同事。</li>
+          <li><b>导入 JSON</b>：读取导出的文件并<b>覆盖</b>当前全部配置（导入前会弹窗确认）。格式不正确的文件会被拒绝，规则字段会逐条校验清洗。</li>
+        </ul>
+      </section>
+
+      <section class="card" id="zh-stats">
+        <h2>命中统计</h2>
+        <p>管理页点击「刷新命中统计」，可查看当前启用配置档里各规则最近 5 分钟内的命中次数，用于排查「规则为什么没生效」。</p>
+        <ul>
+          <li>仅 Chrome / Edge 支持（依赖 <code>getMatchedRules</code> API），Firefox 会显示不支持的提示。</li>
+          <li>该 API 有调用频率限制，短时间内频繁刷新可能暂时失败，稍等再试即可。</li>
+        </ul>
+      </section>
+
+      <section class="card" id="zh-faq">
+        <h2>常见问题</h2>
+        <p><b>规则填好了但没生效？</b></p>
+        <ul>
+          <li>检查角标是不是 OFF（总开关关闭）或 ERR（同步失败，弹窗内有错误原因）。</li>
+          <li>确认当前生效的配置档是不是规则所在的那个。</li>
+          <li>URL 匹配写法是否正确，可先留空试试是否全局生效。</li>
+          <li>部分受浏览器保护的头（如 <code>Host</code>）无法修改。</li>
+        </ul>
+        <p><b>append 不生效？</b>Chrome 中请求头的 append 仅支持少数标准头（<code>Accept</code>、<code>Accept-Language</code>、<code>Cookie</code> 等），响应头无此限制。</p>
+        <p><b>Firefox 有什么差异？</b>需要 Firefox 128 及以上；命中统计不可用；临时载入的插件重启后会消失。</p>
+      </section>
+    </div>
+
+    <!-- ==================== English ==================== -->
+    <div data-lang="en">
+      <header class="page-header">
+        <h1>Help</h1>
+      </header>
+
+      <nav class="card toc">
+        <a href="#en-quickstart">Quick start</a>
+        <a href="#en-rule">Rule fields</a>
+        <a href="#en-global">Master switch & badge</a>
+        <a href="#en-profile">Profiles</a>
+        <a href="#en-manager">Manager page</a>
+        <a href="#en-data">Import / Export</a>
+        <a href="#en-stats">Hit stats</a>
+        <a href="#en-faq">FAQ</a>
+      </nav>
+
+      <section class="card" id="en-quickstart">
+        <h2>Quick start</h2>
+        <ol>
+          <li>Click the toolbar icon to open the popup.</li>
+          <li>Click "+ Add rule", then choose the target (request / response) and operation (set / append / remove).</li>
+          <li>Fill in the header name (key) and value; the remove operation needs no value.</li>
+          <li>Optionally add a URL filter; leave it empty to match all requests.</li>
+          <li>Changes are saved and applied immediately.</li>
+        </ol>
+        <p class="tip">Example: add an auth header to every request to <code>api.example.com</code> — target "Request", operation "Set", key <code>Authorization</code>, value <code>Bearer xxx</code>, URL filter <code>*://api.example.com/*</code>.</p>
+      </section>
+
+      <section class="card" id="en-rule">
+        <h2>Rule fields</h2>
+        <table class="help-table">
+          <tr><th>Field</th><th>Description</th></tr>
+          <tr><td>Enable switch</td><td>Per-rule switch. Turning it off deactivates the rule immediately while keeping its configuration.</td></tr>
+          <tr><td>Target</td><td>"Request" modifies outgoing request headers; "Response" modifies server response headers (e.g. removing <code>X-Frame-Options</code>).</td></tr>
+          <tr><td>Operation</td><td><b>Set</b>: overwrite or add; <b>Append</b>: append to the existing value; <b>Remove</b>: delete the header (no value needed).</td></tr>
+          <tr><td>Name (key)</td><td>The header to modify, e.g. <code>X-Custom-Header</code>. An enabled rule with an empty key shows a red border and has no effect.</td></tr>
+          <tr><td>Value</td><td>Content written for set / append; hidden or disabled for remove.</td></tr>
+          <tr><td>URL filter</td><td>Limits where the rule applies. Wildcards supported (<code>*</code> matches anything), e.g. <code>*://api.example.com/*</code>, <code>*://*.example.com/*</code>. Empty matches all requests.</td></tr>
+        </table>
+      </section>
+
+      <section class="card" id="en-global">
+        <h2>Master switch & badge</h2>
+        <p>The switch at the top-right of the popup and the manager page pauses / resumes all rules at once without losing any configuration.</p>
+        <p>The toolbar badge reflects the current state:</p>
+        <ul>
+          <li><b>Number</b> (blue): count of rules currently in effect.</li>
+          <li><b>OFF</b> (gray): the master switch is off.</li>
+          <li><b>ERR</b> (red): rule sync failed; open the popup or manager page to see the error.</li>
+        </ul>
+      </section>
+
+      <section class="card" id="en-profile">
+        <h2>Profiles</h2>
+        <p>A profile is an independent set of rules, useful for organizing by scenario — e.g. one profile for "Dev" and another for "Staging".</p>
+        <ul>
+          <li>Only <b>one</b> profile is active at a time (switch via the popup dropdown or the radio buttons on the manager page).</li>
+          <li>Profiles can be added, renamed, and deleted on the manager page; the last remaining profile cannot be deleted.</li>
+          <li>Switching profiles takes effect immediately.</li>
+        </ul>
+      </section>
+
+      <section class="card" id="en-manager">
+        <h2>Manager page</h2>
+        <p>Click "Manage" in the popup to open the full manager page, handy when you have many rules:</p>
+        <ul>
+          <li><b>Search</b>: filter rules by key / value / URL keywords.</li>
+          <li><b>Sorting</b>: reorder rules with the ↑ / ↓ buttons on each row.</li>
+          <li><b>Batch actions</b>: select multiple rules to enable, disable, or delete them at once; "Select all" applies to the current search results.</li>
+          <li>The rules section is <b>linked</b> to the profiles section: it always shows and edits the <b>active</b> profile (indicated by the tag next to the title), and follows along when you switch profiles.</li>
+          <li>The selector at the top-right of both the popup and the manager page switches the <b>interface language</b> (English / 中文). The initial language follows your browser locale — Chinese for mainland China, Hong Kong, Macao, and Taiwan, English elsewhere; once switched manually, your choice applies to the popup, the manager page, and this help page.</li>
+        </ul>
+      </section>
+
+      <section class="card" id="en-data">
+        <h2>Import / Export</h2>
+        <ul>
+          <li><b>Export JSON</b>: saves all profiles and rules to a JSON file for backup or sharing.</li>
+          <li><b>Import JSON</b>: reads an exported file and <b>replaces</b> the current configuration (with a confirmation prompt). Invalid files are rejected and every rule is validated and sanitized.</li>
+        </ul>
+      </section>
+
+      <section class="card" id="en-stats">
+        <h2>Hit stats</h2>
+        <p>Click "Refresh hit stats" on the manager page to see how many times each rule of the active profile matched in the last 5 minutes — useful for debugging "why isn't my rule working".</p>
+        <ul>
+          <li>Chrome / Edge only (relies on the <code>getMatchedRules</code> API); Firefox shows an unsupported notice.</li>
+          <li>The API is rate-limited; if refreshing fails temporarily, wait a moment and retry.</li>
+        </ul>
+      </section>
+
+      <section class="card" id="en-faq">
+        <h2>FAQ</h2>
+        <p><b>My rule doesn't work?</b></p>
+        <ul>
+          <li>Check the badge: OFF means the master switch is off; ERR means sync failed (the popup shows the error).</li>
+          <li>Make sure the active profile is the one containing your rule.</li>
+          <li>Verify the URL filter; try leaving it empty to test globally first.</li>
+          <li>Some browser-protected headers (e.g. <code>Host</code>) cannot be modified.</li>
+        </ul>
+        <p><b>Append has no effect?</b> In Chrome, appending to request headers only works for a few standard headers (<code>Accept</code>, <code>Accept-Language</code>, <code>Cookie</code>, etc.); response headers have no such restriction.</p>
+        <p><b>Firefox differences?</b> Requires Firefox 128+; hit stats are unavailable; temporarily loaded add-ons disappear after a restart.</p>
+      </section>
+    </div>
+
+  </div>
+
+  <script src="browser-polyfill.js"></script>
+  <script src="common.js"></script>
+  <script src="help.js"></script>
+</body>
+</html>

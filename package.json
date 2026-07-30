@@ -1,0 +1,11 @@
+{
+  "name": "modify-http-headers",
+  "version": "1.0.0",
+  "description": "修改 HTTP 请求头的浏览器插件，支持 Chrome 和 Firefox（Manifest V3）。",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:chrome": "node scripts/build.js chrome",
+    "build:firefox": "node scripts/build.js firefox"
+  }
+}

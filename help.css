@@ -1,0 +1,81 @@
+/* 帮助页专属样式，基础样式复用 options.css */
+.help-page {
+  max-width: 760px;
+}
+
+.help-page section p,
+.help-page section li {
+  line-height: 1.7;
+  color: #374151;
+}
+
+.help-page ol,
+.help-page ul {
+  padding-left: 20px;
+  margin: 6px 0;
+}
+
+.help-page code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* 目录 */
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding: 12px 16px;
+}
+
+.toc a {
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.toc a:hover {
+  text-decoration: underline;
+}
+
+/* 提示块 */
+.tip {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+
+/* 字段说明表 */
+.help-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+}
+
+.help-table th,
+.help-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.help-table th {
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.help-table td:first-child {
+  white-space: nowrap;
+  font-weight: 500;
+}

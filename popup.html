@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modify HTTP Headers</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- 吸顶区：头部 + 工具栏 -->
+  <div class="popup-top">
+    <header class="app-header">
+      <h1 data-i18n="popupTitle"></h1>
+      <div class="header-actions">
+        <select id="langSelect" class="lang-select" data-i18n-title="languageTitle">
+          <option value="en">EN</option>
+          <option value="zh">中文</option>
+        </select>
+        <label class="switch" data-i18n-title="globalSwitchTitle">
+          <input type="checkbox" id="globalSwitch" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <select id="profileSelect" class="profile-select" data-i18n-title="profileSelectTitle"></select>
+      <button id="addBtn" class="btn btn-primary" data-i18n="addRule"></button>
+      <button id="optionsBtn" class="btn btn-secondary" data-i18n="openOptions" data-i18n-title="openOptionsTitle"></button>
+      <button id="helpBtn" class="btn btn-secondary" data-i18n-title="openHelpTitle">?</button>
+    </div>
+  </div>
+
+  <p id="statusBar" class="status-bar" hidden></p>
+
+  <main>
+    <p id="emptyHint" class="empty-hint" data-i18n="emptyHint"></p>
+    <ul id="ruleList" class="rule-list"></ul>
+  </main>
+
+  <!-- 规则行模板 -->
+  <template id="ruleTemplate">
+    <li class="rule-item">
+      <label class="switch" data-i18n-title="ruleEnabledTitle">
+        <input type="checkbox" class="rule-enabled" />
+        <span class="slider"></span>
+      </label>
+
+      <div class="rule-fields">
+        <div class="field-row">
+          <select class="rule-target" data-i18n-title="ruleTargetTitle">
+            <option value="request" data-i18n="targetRequest"></option>
+            <option value="response" data-i18n="targetResponse"></option>
+          </select>
+          <select class="rule-operation" data-i18n-title="ruleOperationTitle">
+            <option value="set" data-i18n="opSet"></option>
+            <option value="append" data-i18n="opAppend"></option>
+            <option value="remove" data-i18n="opRemove"></option>
+          </select>
+        </div>
+        <div class="field-row">
+          <input type="text" class="rule-header-name" data-i18n-placeholder="phHeaderName" />
+        </div>
+        <div class="field-row">
+          <input type="text" class="rule-header-value" data-i18n-placeholder="phHeaderValue" />
+        </div>
+        <div class="field-row">
+          <input type="text" class="rule-url-pattern" data-i18n-placeholder="phUrlPattern" />
+        </div>
+      </div>
+
+      <button class="btn btn-danger rule-delete" data-i18n-title="ruleDeleteTitle">✕</button>
+    </li>
+  </template>
+
+  <script src="browser-polyfill.js"></script>
+  <script src="common.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
