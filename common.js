@@ -147,6 +147,20 @@ function createProfile(name) {
   return { id: genId(), name, rules: [] };
 }
 
+// 各语言下「默认配置」的名字集合。自动生成的默认配置档名会存成创建时的语言，
+// 用来判断某个配置档名是否是「未被用户改过的默认名」，以便渲染时按当前语言翻译。
+const DEFAULT_PROFILE_NAMES = ["默认配置", "Default"];
+
+// 配置档的展示名：若名字仍是任一语言的默认名（用户没改过），
+// 则按当前界面语言翻译；否则原样返回用户自定义的名字。
+function profileDisplayName(profile) {
+  const name = profile && profile.name;
+  if (DEFAULT_PROFILE_NAMES.includes(name)) {
+    return t("profileDefaultName");
+  }
+  return name;
+}
+
 function defaultConfig() {
   const profile = createProfile(t("profileDefaultName"));
   return {

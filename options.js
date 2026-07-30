@@ -77,7 +77,7 @@ function renderProfiles() {
     const isActive = profile.id === config.activeProfileId;
     activeEl.checked = isActive;
     badgeEl.hidden = !isActive;
-    nameEl.value = profile.name;
+    nameEl.value = profileDisplayName(profile);
     metaEl.textContent = t("ruleCount", [String(profile.rules.length)]);
     // 只剩一个配置档时不允许删除
     deleteBtn.disabled = config.profiles.length <= 1;
@@ -127,7 +127,7 @@ async function addProfile() {
 // —— 规则表格 ——
 // 规则区标题旁展示当前启用的配置档名，强调联动关系
 function renderActiveProfileName() {
-  els.activeProfileName.textContent = editingProfile().name;
+  els.activeProfileName.textContent = profileDisplayName(editingProfile());
 }
 
 function filteredRules() {

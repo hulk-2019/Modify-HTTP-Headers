@@ -26,7 +26,7 @@ function renderProfileSelect() {
   for (const profile of config.profiles) {
     const opt = document.createElement("option");
     opt.value = profile.id;
-    opt.textContent = profile.name;
+    opt.textContent = profileDisplayName(profile);
     profileSelectEl.appendChild(opt);
   }
   profileSelectEl.value = getActiveProfile(config).id;
