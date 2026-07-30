@@ -4,6 +4,14 @@
 
 修改 HTTP 请求头的浏览器插件，支持 **Chrome** 和 **Firefox**（Manifest V3）。
 
+## 示例截图
+
+![示例 1](../public/example-1.png)
+
+![示例 2](../public/example-2.png)
+
+![示例 3](../public/example-3.png)
+
 ## 功能
 
 - 填写 key-value 键值对，修改 HTTP **请求头 / 响应头**

@@ -4,6 +4,14 @@ English | [简体中文](docs/README_zh.md)
 
 A browser extension for modifying HTTP headers, supporting **Chrome** and **Firefox** (Manifest V3).
 
+## Screenshots
+
+![Screenshot 1](public/example-1.png)
+
+![Screenshot 2](public/example-2.png)
+
+![Screenshot 3](public/example-3.png)
+
 ## Features
 
 - Modify HTTP **request headers / response headers** using key-value pairs
