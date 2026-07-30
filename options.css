@@ -262,6 +262,19 @@ input.input-disabled {
 .rule-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.rule-table .col-select {
+  width: 36px;
+}
+
+.rule-table .col-enabled {
+  width: 56px;
+}
+
+.rule-table .col-actions {
+  width: 116px;
 }
 
 .rule-table th {
@@ -281,10 +294,9 @@ input.input-disabled {
   white-space: nowrap;
 }
 
-.rule-table .col-grow,
 .rule-table td input[type="text"] {
   width: 100%;
-  min-width: 120px;
+  min-width: 0;
 }
 
 .row-actions {
